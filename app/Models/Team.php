@@ -13,7 +13,8 @@ class Team extends Model
 
     public function users(): BelongsToMany
     {
-        // TASK: fix this by adding some extra code
+        // TÂCHE : complétez cette relation en ajoutant les champs supplémentaires du pivot (pivot table)
+        // Indice : utilisez withPivot() pour récupérer les colonnes 'position' et 'created_at' du pivot
         return $this->belongsToMany(User::class);
     }
 }

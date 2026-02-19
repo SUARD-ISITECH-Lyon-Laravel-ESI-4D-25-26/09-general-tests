@@ -17,7 +17,7 @@
                                 <th>Registered at</th>
                             </tr>
                         </thead>
-                        {{-- Task: add the loop here to show users, or the row "No content" --}}
+                        {{-- TÂCHE : ajoutez la boucle ici pour afficher les utilisateurs, ou la ligne "No content" si aucun utilisateur n'existe --}}
                         <tbody>
                             <tr>
                                 <td>{{ $user->name }}</td>

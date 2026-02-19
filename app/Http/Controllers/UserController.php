@@ -15,9 +15,10 @@ class UserController extends Controller
 
     public function check_update(string $name, string $email)
     {
-        // TASK: find a user by $name and update it with $email
-        //   if not found, create a user with $name, $email and random password
-        $user = NULL; // updated or created user
+        // TÂCHE : trouvez un utilisateur (User) par son $name et mettez à jour son $email
+        //   si aucun utilisateur n'est trouvé, créez-en un avec $name, $email et un mot de passe aléatoire
+        // Indice : utilisez la méthode updateOrCreate() d'Eloquent
+        // Votre code ici
 
         return $user->name;
     }

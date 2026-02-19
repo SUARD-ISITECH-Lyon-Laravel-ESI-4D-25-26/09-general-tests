@@ -139,7 +139,7 @@ class GeneralTest extends TestCase
 
     public function test_delete_parent_child_record()
     {
-        // We just test if the test succeeds or throws an exception
+        // On vérifie simplement que le test réussit sans lever d'exception
         $this->expectNotToPerformAssertions();
 
         Artisan::call('migrate:fresh', ['--path' => '/database/migrations/task6']);

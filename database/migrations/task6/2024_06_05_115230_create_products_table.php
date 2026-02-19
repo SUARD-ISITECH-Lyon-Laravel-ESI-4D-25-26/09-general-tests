@@ -7,7 +7,8 @@ use Illuminate\Database\Migrations\Migration;
 return new class extends Migration {
     public function up(): void
     {
-        // TASK: Edit this file, so that deleting category would auto-delete its products
+        // TÂCHE : modifiez cette migration pour que la suppression d'une catégorie entraîne la suppression automatique de ses produits (cascade)
+        // Indice : utilisez ->cascadeOnDelete() ou onDelete('cascade') sur la clé étrangère (foreign key)
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained();

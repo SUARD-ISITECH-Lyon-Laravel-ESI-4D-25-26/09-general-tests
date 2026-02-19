@@ -1,124 +1,130 @@
-## Test Your Laravel Skills
+## Testez vos compétences Laravel — Évaluation générale
 
-This repository is a test for you: perform a set of tasks listed below, and fix the PHPUnit tests, which are currently intentionally failing.
+Ce dépôt est un exercice pratique : réalisez les tâches listées ci-dessous
+et faites passer les tests PHPUnit, qui échouent volontairement pour le moment.
 
-To **automatically** test if all the Routes work correctly, there are PHPUnit tests in the `tests/Feature/GeneralTest.php` file.
+Pour vérifier votre progression, les tests se trouvent dans `tests/Feature/GeneralTest.php`.
 
-In the very beginning, if you run `php artisan test`, all tests fail:
+Au départ, si vous exécutez `php artisan test`, tous les tests échouent.
+Votre objectif est de les faire passer un par un.
 
-![](https://laraveldaily.com/uploads/2024/06/free-general-tasks-failing-tests.png)
+> ⚠️ **Vous n'avez pas le droit de modifier les fichiers de tests.**
 
-Your task is to make those tests pass:
 
-![](https://laraveldaily.com/uploads/2024/06/free-general-tasks-passing-tests.png)
+## Notice importante — Base de données MySQL
 
-## IMPORTANT NOTICE - TESTING DATABASE IS MYSQL
+**Les tests sont configurés pour s'exécuter sur une base de données MySQL locale
+nommée `mysql_testing`.**
 
-**TESTS ARE CONFIGURED TO RUN ON A LOCAL MYSQL DATABASE (NOT SQLITE) WHICH SHOULD BE CALLED "mysql_testing"**
+**N'oubliez pas de créer cette base de données.**
 
-**DON'T FORGET TO CREATE THAT DATABASE**
+**Attention : cette base sera vidée fréquemment par les tests via `migrate:fresh`.**
 
-**ALSO, THAT DB WILL BE WIPED A LOT WITHIN TESTS BY "migrate:fresh"**
 
-## How to Install Project Locally
-
-This is a typical Laravel project, so the process is pretty standard:
+## Installation du projet
 
 ```sh
-git clone https://github.com/LaravelDaily/Laravel-Tests-General-Free project
-cd project
-cp .env.example .env  # edit your env variables
+git clone <url-du-depot> projet
+cd projet
+cp .env.example .env  # Éditez vos variables d'environnement
 composer install
 php artisan key:generate
 npm install && npm run build
 ```
 
-And then try to run `php artisan test`. It will show errors that you need to fix one by one.
+Puis lancez `php artisan test` pour voir les erreurs à corriger.
 
-You may even skip launching the project in the browser, as it will show errors there, too.
 
----
+## Soumettre votre solution
 
-## Task 1. Routes: Route with Single Action Controller.
-
-In `routes/web.php` point `/` URL to the Single Action HomeController.
-
-Test method `test_home_screen_returns_home_view_and_shows_homepage()`.
+Créez une Pull Request (ou Merge Request) vers la branche `main`.
 
 ---
 
-## Task 2. Validation: Validation with Form Request.
+## Tâche 1. Route avec Single Action Controller
 
-In `app/Http/Controllers/PostController.php` file, validation is performed via class `StorePostRequest`, but the class doesn't exist, intentionally. Your task is to create it, with parameters of authorized true, and validation rules of title/body as required fields.
+Dans `routes/web.php`, ajoutez une route pointant l'URL `"/"` vers le `HomeController`.
+Ce controller est un Single Action Controller (méthode `__invoke`) qui retourne la vue `home`.
 
-Test method `test_form_request_validation()`.
-
----
-
-## Task 3. File Uploads: Update: Delete Old File.
-
-In `app/Http/Controllers/PostController.php` file, in the `update()` method, we upload the new file but don't delete the old one. Help to clean up the disk and delete the old file.
-
-Test method `test_remove_old_file_when_updating_post()`.
+Méthode de test : `test_home_screen_returns_home_view_and_shows_homepage()`.
 
 ---
 
-## Task 4. Eloquent with Relations: BelongsToMany - Extra Fields in Pivot Table.
+## Tâche 2. Validation avec Form Request
 
-In the route `/teams`, the table should show the teams with users, each user with a few additional fields. Fix the relationship definition in `app/Models/Team.php` so that the Blade file `teams/index.blade.php` would show the correct data.
+Dans `app/Http/Controllers/PostController.php`, la validation est effectuée via la classe
+`StorePostRequest`, mais cette classe n'existe pas intentionnellement.
+Votre objectif est de la créer dans `app/Http/Requests/StorePostRequest.php`,
+avec `authorize()` retournant `true` et des règles de validation exigeant les champs `title` et `body`.
 
-Test method `test_teams_with_users()`.
-
----
-
-## Task 5. Eloquent Basics: Update or New Record.
-
-In `app/Http/Controllers/UserController.php` file method `check_update()`, find a user by `$name` and update it with `$email`. If not found, create a user with `$name`, `$email` and random password
-
-Test method `test_check_or_update_user()`.
+Méthode de test : `test_form_request_validation()`.
 
 ---
 
-## Task 6. Migrations: Auto-Delete Related Records
+## Tâche 3. Upload de fichier : suppression de l'ancien fichier lors de la mise à jour
 
-Folder `database/migrations/task6` contains migrations for category and products tables. You need to modify the products migration, so that deleting the category would auto-delete its products, instead of throwing an error.
+Dans `app/Http/Controllers/PostController.php`, dans la méthode `update()`,
+le nouveau fichier est enregistré mais l'ancien n'est pas supprimé.
+Ajoutez la suppression de l'ancien fichier du stockage (Storage) avant de le remplacer.
 
-Test method `test_delete_parent_child_record()`.
-
----
-
-## Task 7. Auth: Password with Letters
-
-By default, registration form requires password with at least 8 characters. Add a validation rule so that password must have at least one letter, no matter uppercase or lowercase.
-
-So password `12345678` is invalid, but password `a12345678` is valid.
-
-Hint: you need to modify file `app/Http/Controllers/Auth/RegisteredUserController.php`, which is almost default from Laravel Breeze.
-
-Test method: `test_password_at_least_one_uppercase_lowercase_letter()`.
+Méthode de test : `test_remove_old_file_when_updating_post()`.
 
 ---
 
-## Task 8. Blade: Loop in the Table.
+## Tâche 4. Eloquent — Relation BelongsToMany avec champs supplémentaires dans le pivot
 
-The file `resources/views/users/index.blade.php` should show the loop of all users, or "No content" row, if no users are in the database.
+Dans `app/Models/Team.php`, la relation `users()` ne récupère pas les champs supplémentaires
+de la table pivot. Corrigez la définition de la relation pour que la vue `teams/index.blade.php`
+puisse afficher les colonnes `position` et `created_at` du pivot.
 
-Test method `test_loop_shows_table()`.
-
----
-
-## Submit Your Solution to Auto-Test it
-
-If you make a Pull Request to the `main` branch, it will automatically run the tests via **Github Actions** and show you/us if the tests pass.
-
-![](https://laraveldaily.com/uploads/2024/06/free-general-tasks-github-actions.png)
-
-If you don't know how to make a Pull Request, [here's my video with instructions](https://www.youtube.com/watch?v=vEcT6JIFji0).
+Méthode de test : `test_teams_with_user()`.
 
 ---
 
-## Questions / Problems / Ideas?
+## Tâche 5. Eloquent — Mise à jour ou création d'un enregistrement
 
-If you're struggling with some of the tasks or have suggestions on improving them, create a Github Issue.
+Dans `app/Http/Controllers/UserController.php`, dans la méthode `check_update()`,
+trouvez un utilisateur (User) par son `$name` et mettez à jour son `$email`.
+Si aucun utilisateur n'est trouvé, créez-en un avec `$name`, `$email` et un mot de passe aléatoire.
 
-Good luck!
+Méthode de test : `test_check_or_update_user()`.
+
+---
+
+## Tâche 6. Migration — Suppression automatique des enregistrements liés (cascade)
+
+Le dossier `database/migrations/task6` contient les migrations pour les tables `categories`
+et `products`. Modifiez la migration de la table `products` pour que la suppression
+d'une catégorie entraîne la suppression automatique de ses produits (suppression en cascade).
+
+Méthode de test : `test_delete_parent_child_record()`.
+
+---
+
+## Tâche 7. Authentification — Mot de passe avec au moins une lettre
+
+Par défaut, le formulaire d'inscription exige un mot de passe d'au moins 8 caractères.
+Ajoutez une règle de validation pour exiger qu'il contienne au moins une lettre
+(majuscule ou minuscule). Ainsi, `12345678` est invalide, mais `a12345678` est valide.
+
+Modifiez le fichier `app/Http/Controllers/Auth/RegisteredUserController.php`.
+
+Méthode de test : `test_password_at_least_one_uppercase_lowercase_letter()`.
+
+---
+
+## Tâche 8. Blade — Boucle dans un tableau
+
+Le fichier `resources/views/users/index.blade.php` doit afficher la liste de tous les
+utilisateurs dans un tableau, ou une ligne « No content » si aucun utilisateur n'existe
+en base de données.
+
+Méthode de test : `test_loop_shows_table()`.
+
+---
+
+## Questions / Problèmes ?
+
+Si vous rencontrez des difficultés ou avez des suggestions, créez une Issue.
+
+Bon courage !

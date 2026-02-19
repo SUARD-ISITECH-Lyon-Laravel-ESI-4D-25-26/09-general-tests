@@ -22,8 +22,9 @@ class PostController extends Controller
     {
         $filename = $request->file('photo')->store('posts');
 
-        // TASK: Delete the old file from the storage
-        ???
+        // TÂCHE : supprimez l'ancien fichier du stockage (Storage) avant de le remplacer
+        // Indice : utilisez Storage::delete() avec le chemin de l'ancienne photo
+        // Votre code ici
 
         $post->update([
             'title' => $request->title,

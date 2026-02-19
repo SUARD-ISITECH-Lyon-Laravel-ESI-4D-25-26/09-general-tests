@@ -15,7 +15,7 @@ use Illuminate\View\View;
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * Affiche la vue d'inscription.
      */
     public function create(): View
     {
@@ -23,7 +23,9 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle an incoming registration request.
+     * TÂCHE : modifiez la validation du mot de passe pour exiger au moins une lettre (majuscule ou minuscule).
+     * Indice : utilisez Password::min(8)->letters() ou ajoutez une règle Regex
+     * (voir https://laravel.com/docs/validation#validating-passwords)
      *
      * @throws \Illuminate\Validation\ValidationException
      */

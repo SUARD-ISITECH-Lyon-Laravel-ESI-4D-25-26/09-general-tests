@@ -3,7 +3,9 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// TASK: Add a route below to / URL
+// TÂCHE : ajoutez une route vers l'URL "/" pointant vers le HomeController (Single Action Controller)
+// Indice : voir https://laravel.com/docs/controllers#single-action-controllers
+// Votre code ici
 
 Route::post('posts', [\App\Http\Controllers\PostController::class, 'store'])->name('posts.store');
 Route::put('posts/{post}', [\App\Http\Controllers\PostController::class, 'update'])->name('posts.update');
