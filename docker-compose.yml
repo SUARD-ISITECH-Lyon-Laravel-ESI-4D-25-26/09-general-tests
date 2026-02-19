@@ -10,7 +10,7 @@
 #   docker compose down -v         # Arrêter et supprimer les données
 #
 # Accès :
-#   MySQL      → localhost:3306  (utilisateur: root, mot de passe: vide)
+#   MySQL      → localhost:3306  (utilisateur: student, mot de passe: secret)
 #   phpMyAdmin → http://localhost:8080
 #
 # ⚠️  La base de données mysql_testing sera vidée fréquemment par les tests
@@ -26,7 +26,9 @@ services:
       - "3306:3306"
     environment:
       MYSQL_DATABASE: mysql_testing
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_USER: student
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
     volumes:
       - mysql_data:/var/lib/mysql
     healthcheck:
@@ -44,8 +46,8 @@ services:
     environment:
       PMA_HOST: mysql
       PMA_PORT: 3306
-      PMA_USER: root
-      PMA_PASSWORD: ""
+      PMA_USER: student
+      PMA_PASSWORD: secret
     depends_on:
       mysql:
         condition: service_healthy
