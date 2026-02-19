@@ -1,0 +1,54 @@
+###############################################################################
+# Docker Compose — TP 09 General Tests
+#
+# Ce fichier fournit une base de données MySQL 8.4 et une interface phpMyAdmin
+# pour le développement local. PHP s'exécute directement sur votre machine.
+#
+# Utilisation :
+#   docker compose up -d          # Démarrer les services
+#   docker compose down            # Arrêter les services
+#   docker compose down -v         # Arrêter et supprimer les données
+#
+# Accès :
+#   MySQL      → localhost:3306  (utilisateur: root, mot de passe: vide)
+#   phpMyAdmin → http://localhost:8080
+#
+# ⚠️  La base de données mysql_testing sera vidée fréquemment par les tests
+#     via `php artisan migrate:fresh`. Ne stockez pas de données importantes.
+###############################################################################
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: tp09-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: mysql_testing
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: tp09-phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: ""
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql_data:
